@@ -74,20 +74,40 @@ CORS_ALLOWED_ORIGINS=https://your-frontend-domain.com,https://hocus-focus.netlif
 
 ## Step 4: Add a PostgreSQL Database
 
-1. **In Render dashboard**, click "New +" → "PostgreSQL"
-2. **Configure**:
+1. **Create the database**:
+   - In Render dashboard, click "New +" → "PostgreSQL"
    - **Name**: `hocus-focus-db`
    - **Region**: Same as your web service
    - **Plan**: Free tier is fine for development
-3. **Connect to your web service**:
-   - Go to your web service's "Environment" tab
-   - Render will automatically add `DATABASE_URL` environment variable
+   - Click "Create Database"
+
+2. **Connect the database to your web service**:
+   - After the database is created, go to your **web service** (not the database)
+   - Click on the "Environment" tab
+   - Click "Add Environment Variable"
+   - **Key**: `DATABASE_URL`
+   - **Value**: Click "Connect Database" and select your `hocus-focus-db`
+   - This automatically fills in the connection string
+   - Save the changes
+
+**How Render Knows Which Database:**
+- You explicitly connect the database by selecting it in the "Connect Database" dropdown
+- Render then automatically sets the `DATABASE_URL` environment variable with the correct connection string
+- Your Django app reads this `DATABASE_URL` via the `dj_database_url.parse()` function in settings.py
+
+**Important**: Set your environment variables (especially SECRET_KEY) BEFORE connecting the database, as migrations run during the build process.
 
 ## Step 5: Deploy
 
 1. **Click "Create Web Service"**
 2. **Wait for deployment** (first deploy takes 5-10 minutes)
 3. **Check logs** for any errors in the "Logs" tab
+
+**If deployment succeeds but `/admin/` gives 400 error:**
+1. Go to your service → "Shell" tab
+2. Run: `python manage.py migrate` (to ensure migrations completed)
+3. Run: `python manage.py createsuperuser` (to create admin user)
+4. Try `/admin/` again
 
 ## Step 6: Test Your API
 

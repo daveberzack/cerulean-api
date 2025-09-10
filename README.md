@@ -70,13 +70,14 @@ See [DEPLOYMENT_GUIDE.md](./DEPLOYMENT_GUIDE.md) for detailed instructions on de
 ## Project Structure
 
 ```
-cerulean/
-├── challenges/          # Main app
-│   ├── models.py       # Database models
-│   ├── serializers.py  # API serializers
-│   ├── views.py        # API endpoints
-│   └── urls.py         # URL routing
-├── hocus_focus_api/    # Django project
+cerulean-api/
+├── hocus_focus/         # Hocus Focus product section
+│   └── challenges/      # Challenges app
+│       ├── models.py    # Database models
+│       ├── serializers.py # API serializers
+│       ├── views.py     # API endpoints
+│       └── urls.py      # URL routing
+├── api_core/           # Django project
 │   ├── settings.py     # Configuration
 │   └── urls.py         # Main URL config
 ├── requirements.txt    # Dependencies
