@@ -11,7 +11,7 @@ class ChallengeSerializer(serializers.ModelSerializer):
     class Meta:
         model = Challenge
         fields = [
-            'id', 'date', 'clue', 'credit', 'credit_url',
+            'id', 'date', 'clue',
             'goals', 'hitareas', 'before_message_body', 'before_message_title',
             'before_message_button', 'before_message_background_image_url',
             'created_at', 'has_image', 'image_base64'
@@ -32,7 +32,7 @@ class ChallengeCreateSerializer(serializers.ModelSerializer):
     class Meta:
         model = Challenge
         fields = [
-            'date', 'clue', 'credit', 'credit_url', 'image',
+            'date', 'clue', 'image',
             'goals', 'hitareas', 'before_message_body', 'before_message_title',
             'before_message_button', 'before_message_background_image_url'
         ]

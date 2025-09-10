@@ -9,8 +9,6 @@ class Challenge(models.Model):
     id = models.AutoField(primary_key=True)
     date = models.CharField(max_length=50, blank=True, null=True)
     clue = models.TextField()
-    credit = models.CharField(max_length=255, blank=True, null=True)
-    credit_url = models.URLField(blank=True, null=True)
     # Essential image storage - just the data
     image_data = models.BinaryField(blank=True, null=True, help_text="Binary image data")
     goals = models.JSONField(default=list)  # List of integers for time goals
