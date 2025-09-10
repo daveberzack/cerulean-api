@@ -86,8 +86,7 @@ cerulean/
 
 ## Models
 
-- **Challenge**: Main puzzle data with clues, goals, before message fields, and metadata
-- **HitArea**: Clickable areas within challenges
+- **Challenge**: Main puzzle data with clues, goals, hit areas (as tokenized string), before message fields, and metadata
 - **Solve**: User completion records
 
 ## Configuration

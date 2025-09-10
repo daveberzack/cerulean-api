@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.utils.html import format_html
-from .models import Challenge, HitArea
+from .models import Challenge
 
 
 @admin.register(Challenge)
@@ -27,9 +27,3 @@ class ChallengeAdmin(admin.ModelAdmin):
             )
         return "No image"
     image_preview.short_description = "Image Preview"
-
-
-@admin.register(HitArea)
-class HitAreaAdmin(admin.ModelAdmin):
-    list_display = ['id', 'challenge', 'x1', 'y1', 'x2', 'y2', 'w']
-    list_filter = ['challenge']
