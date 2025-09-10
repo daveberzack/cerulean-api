@@ -3,6 +3,11 @@ from django.contrib.auth.models import User
 import base64
 
 
+def default_goals():
+    """Default goals list for challenges"""
+    return []
+
+
 class Challenge(models.Model):
     """Challenge model representing a Hocus Focus puzzle"""
     
@@ -11,7 +16,7 @@ class Challenge(models.Model):
     clue = models.TextField()
     # Essential image storage - just the data
     image_data = models.BinaryField(blank=True, null=True, help_text="Binary image data")
-    goals = models.JSONField(default=list)  # List of integers for time goals
+    goals = models.JSONField(default=default_goals, blank=True)  # List of integers for time goals
     hitareas = models.TextField(blank=True, null=True, help_text="Tokenized string of hit areas")
     
     # Before message fields (1-to-1 relationship, so included directly)
