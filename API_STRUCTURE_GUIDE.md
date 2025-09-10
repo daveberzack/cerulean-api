@@ -143,13 +143,11 @@ Serializers convert between JSON (what APIs use) and Python objects (what Django
 class ChallengeSerializer(serializers.ModelSerializer):
     """Converts Challenge objects to/from JSON"""
     
-    hit_areas = HitAreaSerializer(many=True, read_only=True)  # Include related data
-    
     class Meta:
         model = Challenge
         fields = [
             'id', 'clue', 'image_key', 'goals',     # What fields to include
-            'hit_areas', 'created_at', 'updated_at'
+            'hitareas', 'created_at', 'updated_at'  # hitareas is now a tokenized string field
         ]
         read_only_fields = ['id', 'created_at', 'updated_at']  # Can't be changed via API
 ```
