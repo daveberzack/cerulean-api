@@ -6,7 +6,7 @@ This guide will walk you through deploying the Hocus Focus Django API to Render.
 
 - A GitHub account with your code repository
 - A Render.com account (free tier available)
-- Your Django project in the `cerulean` folder
+- Your Django project files in the repository root
 
 ## Project Structure
 
@@ -24,7 +24,6 @@ Your Django API includes:
 
 1. **Push your code to GitHub**:
    ```bash
-   cd cerulean
    git init
    git add .
    git commit -m "Initial Django API setup"
@@ -42,10 +41,10 @@ Your Django API includes:
    - **Name**: `hocus-focus-api`
    - **Region**: Choose closest to your users
    - **Branch**: `main`
-   - **Root Directory**: `cerulean` (important!)
+   - **Root Directory**: Leave empty (project is in repository root)
    - **Runtime**: `Python 3`
    - **Build Command**: `./build.sh`
-   - **Start Command**: `gunicorn hocus_focus_api.wsgi:application`
+   - **Start Command**: `gunicorn api_core.wsgi:application`
 
 ## Step 3: Set Environment Variables
 
@@ -171,7 +170,7 @@ The API is configured to accept requests from:
 
 ### Common Issues
 
-1. **Build fails**: Check that `Root Directory` is set to `cerulean`
+1. **Build fails**: Ensure `Root Directory` is empty (project is in repository root)
 2. **Database connection errors**: Ensure PostgreSQL database is connected
 3. **CORS errors**: Add your frontend domain to `CORS_ALLOWED_ORIGINS`
 4. **Static files not loading**: Ensure `whitenoise` is in `MIDDLEWARE`
