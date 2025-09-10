@@ -66,7 +66,7 @@ def get_challenge_image(request, challenge_id):
     """
     GET /challenge/{id}/image
     Get the raw image data for a challenge
-    Returns the actual image file with proper content type
+    Returns the actual image file
     """
     try:
         challenge = get_object_or_404(Challenge, id=challenge_id)
@@ -77,19 +77,11 @@ def get_challenge_image(request, challenge_id):
                 status=status.HTTP_404_NOT_FOUND
             )
         
-        # Return the raw image data with proper content type
+        # Return the raw image data
         response = HttpResponse(
             challenge.image_data,
-            content_type=challenge.image_content_type or 'image/jpeg'
+            content_type='image/jpeg'  # Default to JPEG
         )
-        
-        # Set filename if available
-        if challenge.image_name:
-            response['Content-Disposition'] = f'inline; filename="{challenge.image_name}"'
-        
-        # Set content length
-        if challenge.image_size:
-            response['Content-Length'] = challenge.image_size
             
         return response
         

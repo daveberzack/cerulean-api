@@ -16,9 +16,16 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from django.http import JsonResponse
 from rest_framework.authtoken.views import obtain_auth_token
 
+def health_check(request):
+    """Simple health check endpoint"""
+    return JsonResponse({"status": "healthy", "message": "API is running"})
+
 urlpatterns = [
+    path('', health_check, name='health_check'),  # Root endpoint
+    path('health/', health_check, name='health'),  # Health check
     path('admin/', admin.site.urls),
     path('api/auth/token/', obtain_auth_token, name='api_token_auth'),
     path('api/hocus-focus/', include('hocus_focus.challenges.urls')),  # Hocus Focus challenges under /api/hocus-focus/

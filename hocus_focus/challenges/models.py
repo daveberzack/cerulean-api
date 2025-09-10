@@ -1,7 +1,5 @@
 from django.db import models
 from django.contrib.auth.models import User
-from django.core.validators import FileExtensionValidator
-import uuid
 import base64
 
 
@@ -13,11 +11,8 @@ class Challenge(models.Model):
     clue = models.TextField()
     credit = models.CharField(max_length=255, blank=True, null=True)
     credit_url = models.URLField(blank=True, null=True)
-    # Image storage fields
+    # Essential image storage - just the data
     image_data = models.BinaryField(blank=True, null=True, help_text="Binary image data")
-    image_name = models.CharField(max_length=255, blank=True, null=True, help_text="Original filename")
-    image_content_type = models.CharField(max_length=100, blank=True, null=True, help_text="MIME type (e.g., image/jpeg)")
-    image_size = models.PositiveIntegerField(blank=True, null=True, help_text="File size in bytes")
     goals = models.JSONField(default=list)  # List of integers for time goals
     hitareas = models.TextField(blank=True, null=True, help_text="Tokenized string of hit areas")
     
@@ -27,11 +22,7 @@ class Challenge(models.Model):
     before_message_button = models.CharField(max_length=100, blank=True, null=True)
     before_message_background_image_url = models.URLField(blank=True, null=True)
     
-    is_test = models.BooleanField(default=False, null=True, blank=True)
-    is_permanent = models.BooleanField(default=False, null=True, blank=True)
-    is_tutorial = models.BooleanField(default=False, null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
         db_table = 'challenges'
@@ -55,9 +46,6 @@ class Challenge(models.Model):
         """Set image data from uploaded file"""
         if uploaded_file:
             self.image_data = uploaded_file.read()
-            self.image_name = uploaded_file.name
-            self.image_content_type = uploaded_file.content_type
-            self.image_size = uploaded_file.size
             # Reset file pointer for potential reuse
             uploaded_file.seek(0)
 
