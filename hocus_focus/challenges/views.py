@@ -24,7 +24,7 @@ def create_challenge(request):
     Supports both multipart/form-data (for file uploads) and application/json
     """
     try:
-        serializer = ChallengeCreateSerializer(data=request.data, files=request.FILES)
+        serializer = ChallengeCreateSerializer(data=request.data)
         if serializer.is_valid():
             challenge = serializer.save()
             # Return the full challenge data with nested objects
