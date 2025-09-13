@@ -11,7 +11,7 @@ class ChallengeSerializer(serializers.ModelSerializer):
     class Meta:
         model = Challenge
         fields = [
-            'id', 'date', 'clue',
+            'id', 'date', 'clue', 'mode', 'theme',
             'goals', 'hitareas', 'before_message_body', 'before_message_title',
             'before_message_button', 'before_message_background_image_url',
             'created_at', 'has_image', 'image_base64'
@@ -28,17 +28,24 @@ class ChallengeCreateSerializer(serializers.ModelSerializer):
     
     hitareas = serializers.CharField(required=False, allow_blank=True, help_text="Tokenized string of hit areas")
     image = serializers.ImageField(required=False, help_text="Upload an image file")
+    mode = serializers.CharField(required=False, allow_blank=True, help_text="Challenge mode")
+    theme = serializers.CharField(required=False, allow_blank=True, help_text="Theme identifier")
     
     class Meta:
         model = Challenge
         fields = [
-            'date', 'clue', 'image',
+            'date', 'clue', 'image', 'mode', 'theme',
             'goals', 'hitareas', 'before_message_body', 'before_message_title',
             'before_message_button', 'before_message_background_image_url'
         ]
     
     def create(self, validated_data):
         image_file = validated_data.pop('image', None)
+        
+        # Handle theme -> background image URL conversion if needed
+        theme = validated_data.get('theme')
+        if theme and not validated_data.get('before_message_background_image_url'):
+            validated_data['before_message_background_image_url'] = f"./img/themes/bgs/{theme}.jpg"
         
         challenge = Challenge.objects.create(**validated_data)
         
