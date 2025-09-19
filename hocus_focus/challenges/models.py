@@ -16,7 +16,7 @@ class Challenge(models.Model):
     clue = models.TextField()
     # Essential image storage - just the data
     image_data = models.BinaryField(blank=True, null=True, help_text="Binary image data")
-    goals = models.JSONField(default=default_goals, blank=True)  # List of integers for time goals
+    goals = models.TextField(blank=True, null=True, help_text="Comma-separated string of goal times")
     hitareas = models.TextField(blank=True, null=True, help_text="Tokenized string of hit areas")
     mode = models.CharField(max_length=50, blank=True, null=True, help_text="Challenge mode")
     theme = models.CharField(max_length=50, blank=True, null=True, help_text="Theme identifier")

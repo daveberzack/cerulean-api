@@ -7,20 +7,29 @@ class ChallengeSerializer(serializers.ModelSerializer):
     
     image_base64 = serializers.SerializerMethodField()
     has_image = serializers.ReadOnlyField()
+    beforeMessages = serializers.SerializerMethodField()
     
     class Meta:
         model = Challenge
         fields = [
             'id', 'date', 'clue', 'mode', 'theme',
-            'goals', 'hitareas', 'before_message_body', 'before_message_title',
-            'before_message_button', 'before_message_background_image_url',
+            'goals', 'hitareas', 'beforeMessages',
             'created_at', 'has_image', 'image_base64'
         ]
-        read_only_fields = ['id', 'created_at', 'has_image', 'image_base64']
+        read_only_fields = ['id', 'created_at', 'has_image', 'image_base64', 'beforeMessages']
     
     def get_image_base64(self, obj):
         """Return base64 encoded image data"""
         return obj.get_image_base64()
+    
+    def get_beforeMessages(self, obj):
+        """Return before message data as an array with a single element"""
+        return [{
+            "title": obj.before_message_title or "",
+            "body": obj.before_message_body or "",
+            "button": obj.before_message_button or "",
+            "theme": obj.theme or ""
+        }]
 
 
 class ChallengeCreateSerializer(serializers.ModelSerializer):
@@ -30,6 +39,7 @@ class ChallengeCreateSerializer(serializers.ModelSerializer):
     image = serializers.ImageField(required=False, help_text="Upload an image file")
     mode = serializers.CharField(required=False, allow_blank=True, help_text="Challenge mode")
     theme = serializers.CharField(required=False, allow_blank=True, help_text="Theme identifier")
+    goals = serializers.CharField(required=False, allow_blank=True, help_text="Comma-separated list of goal times")
     
     class Meta:
         model = Challenge
@@ -57,25 +67,25 @@ class ChallengeCreateSerializer(serializers.ModelSerializer):
         return challenge
 
 
-class ChristmasChallengeSerializer(serializers.Serializer):
-    """Serializer for Christmas challenge creation"""
+# class ChristmasChallengeSerializer(serializers.Serializer):
+#     """Serializer for Christmas challenge creation"""
     
-    clue = serializers.CharField(required=False, allow_blank=True)
-    before_message = serializers.CharField(required=False, allow_blank=True)
-    before_title = serializers.CharField(required=False, allow_blank=True)
-    theme = serializers.CharField(required=False, default='11')
+#     clue = serializers.CharField(required=False, allow_blank=True)
+#     before_message = serializers.CharField(required=False, allow_blank=True)
+#     before_title = serializers.CharField(required=False, allow_blank=True)
+#     theme = serializers.CharField(required=False, default='11')
     
-    def create(self, validated_data):
-        # Create Christmas challenge with default values
-        challenge_data = {
-            'clue': validated_data.get('clue', ''),
-            'goals': [20, 40, 60, 90, 120],
-            'before_message_body': validated_data.get('before_message', ''),
-            'before_message_title': validated_data.get('before_title', ''),
-            'before_message_button': 'Open Card',
-            'before_message_background_image_url': f"./img/themes/bgs/{validated_data.get('theme', '11')}.jpg"
-        }
+#     def create(self, validated_data):
+#         # Create Christmas challenge with default values
+#         challenge_data = {
+#             'clue': validated_data.get('clue', ''),
+#             'goals': [20, 40, 60, 90, 120],
+#             'before_message_body': validated_data.get('before_message', ''),
+#             'before_message_title': validated_data.get('before_title', ''),
+#             'before_message_button': 'Open Card',
+#             'before_message_background_image_url': f"./img/themes/bgs/{validated_data.get('theme', '11')}.jpg"
+#         }
         
-        challenge = Challenge.objects.create(**challenge_data)
+#         challenge = Challenge.objects.create(**challenge_data)
         
-        return challenge
+#         return challenge
